@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WolfService xmlns="http://www.aric.com/WolfService"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.aric.com/WolfService WolfService.xsd ">
+	<DBFunctionCaller connectionJndiName="java:MyApp/myDS"
+		dbMethodName="comet_core.getCampaignName" id="dbFunction-1">
+		<DBResourceFactory id="ref-dbResFac">
+			<properties>
+				<property name="a" value="b" />
+			</properties>
+		</DBResourceFactory>
+		<DBReturnMap id="ref-dbRetMap">
+			<DBReturnMapEntry index="0" type="BIT" />
+			<DBReturnMapEntry index="1" type="BIT" />
+		</DBReturnMap>
+	</DBFunctionCaller>
+
+	<DBFunctionCaller connectionJndiName="java:MyApp/myDS"
+		dbMethodName="comet_core.getCampaignName" id="dbFunction-2"
+		resourceFactoryId="dbResFac-1" returnMapId="dbRetMap-1" />
+
+	<DBProcedureCaller id="dbProc-1" connectionJndiName="java:MyApp/myDS"
+		dbMethodName="comet_core.comet_core.createCampaign" resourceFactoryId="dbResFac-1"
+		returnMapId="dbRetMap-1" />
+
+	<DBProcedureCaller id="dbProc-2" connectionJndiName="java:MyApp/myDS"
+		dbMethodName="comet_core.comet_core.createCampaign">
+		<DBResourceFactory id="ref-dbResFac">
+			<properties>
+				<property name="a" value="b" />
+				<property name="d" value="c" />
+			</properties>
+		</DBResourceFactory>
+		<DBReturnMap id="ref-dbRetMap">
+			<DBReturnMapEntry index="0" type="BIT" />
+		</DBReturnMap>
+	</DBProcedureCaller>
+
+<!-- 	<WSCaller id="wscaller-1" operationName="helloWorld" wsdlUrl="dsadas" /> -->
+
+
+	<DBReturnMap id="dbRetMap-1">
+		<DBReturnMapEntry index="0" type="BIT" />
+	</DBReturnMap>
+
+	<DBResourceFactory id="dbResFac-1">
+		<properties>
+			<property name="a" value="b" />
+		</properties>
+	</DBResourceFactory>
+	<EJBCaller id="ejbCAller-2" jndiName="com.sdd" methodName="getName"
+		resourceFactoryId="ejbResourFac-1" />
+	<EJBCaller id="ejbCAller-1" jndiName="com.sdd" methodName="getName">
+		<EjbResourceFactory id="ref-ejbResourFac">
+			<properties>
+				<property name="a" value="b" />
+			</properties>
+		</EjbResourceFactory>
+	</EJBCaller>
+
+
+
+	<EjbResourceFactory id="ejbResourFac-1">
+		<properties>
+			<property name="a" value="b" />
+		</properties>
+	</EjbResourceFactory>
+	<DBReturnMap id="dbRetMap-2">
+		<DBReturnMapEntry index="0" type="BIT" />
+	</DBReturnMap>
+</WolfService>

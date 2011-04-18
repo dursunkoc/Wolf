@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.aric.com/WolfService"
+	xmlns:aric="http://www.aric.com/WolfService" elementFormDefault="qualified">
+
+	<element name="WolfService">
+		<complexType>
+            <choice minOccurs="0" maxOccurs="unbounded">
+				<element name="DBFunctionCaller" type="aric:DBFunctionCaller" maxOccurs="unbounded" minOccurs="0"/>
+				<element name="DBProcedureCaller" type="aric:DBProcedureCaller" maxOccurs="unbounded" minOccurs="0" />
+				<element name="WSCaller" type="aric:WSCaller" maxOccurs="unbounded" minOccurs="0" />
+				<element name="EJBCaller" type="aric:EJBCaller" maxOccurs="unbounded" minOccurs="0" />
+				<element name="DBResourceFactory" type="aric:DBResourceFactory" maxOccurs="unbounded" minOccurs="0"/>
+				<element name="EjbResourceFactory" type="aric:EjbResourceFactory" maxOccurs="unbounded" minOccurs="0"/>
+				<element name="DBReturnMap" type="aric:DBReturnMap" maxOccurs="unbounded" minOccurs="0"/>
+			</choice>
+		</complexType>
+		<keyref name="refFunctionResourceFactory" refer="aric:kDBResourceFactory">
+			<selector xpath="DBFunctionCaller" />
+			<field xpath="@resourceFactoryId" />
+		</keyref>
+		<keyref name="refFunctionReturnMap" refer="aric:kDBReturnMap">
+			<selector xpath="DBFunctionCaller" />
+			<field xpath="@returnMapId" />
+		</keyref>
+		<keyref name="refProcedureResourceFactory" refer="aric:kDBResourceFactory">
+			<selector xpath="DBProcedureCaller" />
+			<field xpath="@resourceFactoryId" />
+		</keyref>
+		<keyref name="refProcedureReturnMap" refer="aric:kDBReturnMap">
+			<selector xpath="DBProcedureCaller" />
+			<field xpath="@returnMapId" />
+		</keyref>
+		<keyref name="refEJBResourceFactory" refer="aric:kEjbResourceFactory">
+			<selector xpath="EJBCaller" />
+			<field xpath="@resourceFactoryId" />
+		</keyref>
+
+		<key name="kDBFunctionCaller">
+			<selector xpath="aric:DBFunctionCaller" />
+			<field xpath="@id" />
+		</key>
+
+		<key name="kDBProcedureCaller">
+			<selector xpath="aric:DBProcedureCaller" />
+			<field xpath="@id" />
+		</key>
+
+		<key name="kWSCaller">
+			<selector xpath="aric:WSCaller" />
+			<field xpath="@id" />
+		</key>
+		<key name="kEJBCaller">
+			<selector xpath="aric:EJBCaller" />
+			<field xpath="@id" />
+		</key>
+
+		<key name="kDBResourceFactory">
+			<selector xpath="aric:DBResourceFactory" />
+			<field xpath="@id" />
+		</key>
+		<key name="kEjbResourceFactory">
+			<selector xpath="aric:EjbResourceFactory" />
+			<field xpath="@id" />
+		</key>
+
+		<key name="kDBReturnMap">
+			<selector xpath="aric:DBReturnMap" />
+			<field xpath="@id" />
+		</key>
+
+		<unique name="uDBFunctionCaller">
+			<selector xpath="aric:DBFunctionCaller" />
+			<field xpath="@id" />
+		</unique>
+		<unique name="uDBProcedureCaller">
+			<selector xpath="aric:DBProcedureCaller" />
+			<field xpath="@id" />
+		</unique>
+
+		<unique name="uWSCaller">
+			<selector xpath="aric:WSCaller" />
+			<field xpath="@id" />
+		</unique>
+		<unique name="uEJBCaller">
+			<selector xpath="aric:EJBCaller" />
+			<field xpath="@id" />
+		</unique>
+
+		<unique name="uDBResourceFactory">
+			<selector xpath="aric:DBResourceFactory" />
+			<field xpath="@id" />
+		</unique>
+		<unique name="uEjbResourceFactory">
+			<selector xpath="aric:EjbResourceFactory" />
+			<field xpath="@id" />
+		</unique>
+
+		<unique name="uDBReturnMap">
+			<selector xpath="aric:DBReturnMap" />
+			<field xpath="@id" />
+		</unique>
+
+
+	</element>
+
+	<complexType name="DBFunctionCaller">
+		<sequence>
+			<element name="DBResourceFactory" type="aric:DBResourceFactory"
+				maxOccurs="1" minOccurs="0" />
+			<element name="DBReturnMap" type="aric:DBReturnMap"
+				maxOccurs="1" minOccurs="0" />
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+		<attribute name="dbMethodName" type="string" />
+		<attribute name="connectionJndiName" type="string" />
+		<attribute name="resourceFactoryId" type="string" />
+        <attribute name="returnMapId" type="string" />
+    </complexType>
+
+	<complexType name="DBProcedureCaller">
+		<sequence>
+			<element name="DBResourceFactory" type="aric:DBResourceFactory" minOccurs="0" maxOccurs="1"/>
+			<element name="DBReturnMap" type="aric:DBReturnMap" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+		<attribute name="dbMethodName" type="string" />
+		<attribute name="connectionJndiName" type="string" />
+		<attribute name="resourceFactoryId" type="string" />
+		<attribute name="returnMapId" type="string" />
+	</complexType>
+
+	<complexType name="WSCaller">
+		<attribute name="id" type="string" use="required" />
+		<attribute name="wsdlUrl" type="string" />
+		<attribute name="operationName" type="string" />
+	</complexType>
+
+	<complexType name="EJBCaller">
+		<sequence>
+			<element name="EjbResourceFactory" type="aric:EjbResourceFactory" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+		<attribute name="jndiName" type="string" />
+		<attribute name="methodName" type="string" />
+		<attribute name="resourceFactoryId" type="string" />
+	</complexType>
+
+	<complexType name="DBResourceFactory">
+		<sequence>
+			<element name="properties" type="aric:propertiesType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+	</complexType>
+
+	<complexType name="EjbResourceFactory">
+		<sequence>
+			<element name="properties" type="aric:propertiesType" />
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+	</complexType>
+
+	<complexType name="DBReturnMap">
+		<sequence>
+			<element name="DBReturnMapEntry" type="aric:DBReturnMapEntry" maxOccurs="unbounded" minOccurs="0"/>
+		</sequence>
+		<attribute name="id" type="string" use="required" />
+	</complexType>
+
+	<complexType name="DBReturnMapEntry">
+		<sequence>
+			<element name="index" type="int" maxOccurs="1" minOccurs="0" />
+			<element name="type" type="aric:sqlType" maxOccurs="1"
+				minOccurs="0" />
+		</sequence>
+		<attribute name="index" type="int" />
+		<attribute name="type" type="aric:sqlType" />
+	</complexType>
+
+	<complexType name="propertiesType">
+		<sequence>
+			<element name="property" maxOccurs="unbounded" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="name" type="string" minOccurs="0"
+							maxOccurs="1" />
+						<element name="value" type="string" minOccurs="0"
+							maxOccurs="1" />
+					</sequence>
+					<attribute name="name" type="string" use="optional" />
+					<attribute name="value" type="string" use="optional" />
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="sqlType">
+		<restriction base="string">
+			<enumeration value="BIT" />
+			<enumeration value="TINYINT" />
+			<enumeration value="SMALLINT" />
+			<enumeration value="INTEGER" />
+			<enumeration value="BIGINT" />
+			<enumeration value="FLOAT" />
+			<enumeration value="REAL" />
+			<enumeration value="DOUBLE" />
+			<enumeration value="NUMERIC" />
+			<enumeration value="DECIMAL" />
+			<enumeration value="CHAR" />
+			<enumeration value="VARCHAR" />
+			<enumeration value="LONGVARCHAR" />
+			<enumeration value="DATE" />
+			<enumeration value="TIME" />
+			<enumeration value="TIMESTAMP" />
+			<enumeration value="BINARY" />
+			<enumeration value="VARBINARY" />
+			<enumeration value="LONGVARBINARY" />
+			<enumeration value="NULL" />
+			<enumeration value="OTHER" />
+			<enumeration value="JAVA_OBJECT" />
+			<enumeration value="DISTINCT" />
+			<enumeration value="STRUCT" />
+			<enumeration value="ARRAY" />
+			<enumeration value="BLOB" />
+			<enumeration value="CLOB" />
+			<enumeration value="REF" />
+			<enumeration value="DATALINK" />
+			<enumeration value="BOOLEAN" />
+			<enumeration value="ROWID" />
+			<enumeration value="NCHAR" />
+			<enumeration value="NVARCHAR" />
+			<enumeration value="LONGNVARCHAR" />
+			<enumeration value="NCLOB" />
+			<enumeration value="SQLXML" />
+		</restriction>
+	</simpleType>
+
+</schema>
