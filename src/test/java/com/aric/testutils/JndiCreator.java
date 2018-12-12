@@ -15,9 +15,6 @@ import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 public class JndiCreator {
 	public static final int DB_OPTION_ORACLE = 1;
 	public static final int DB_OPTION_MYSQL = 2;
-	private static final String oracleUrl = "jdbc:oracle:thin:@10.201.248.30:3201:CAMPDBD";
-	private static final String oracleUsername = "COMET";
-	private static final String oraclePassword = "COMET";
 	private static final String oracleDriverClassName = "oracle.jdbc.driver.OracleDriver";
 
 	private static final String mysqlUrl = "jdbc:mysql://localhost:3306/test";
